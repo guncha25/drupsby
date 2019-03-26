@@ -1,6 +1,6 @@
 # Drupsby
 
-## Setub
+## Backend setup
 
 Start drupal:
 
@@ -12,7 +12,9 @@ lando drush uli
 
 Log in and add couple of articles and pages
 
-## Frontend
+## Frontend setup
+
+Given that you where in drupal directory:
 
 ```
 cd ../frontend
