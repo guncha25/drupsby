@@ -1,0 +1,44 @@
+name: drupsby
+recipe: drupal8
+
+compose:
+  - compose.yml
+
+config:
+  webroot: web
+  via: nginx
+  php: '7.1'
+  database: mariadb:10.1
+
+tooling:
+  build.sh:
+    service: appserver
+    description: Execute build.sh
+    cmd:
+      - ./build.sh
+  codeception:
+    service: appserver
+    description: Run codeception
+    cmd:
+    - ./vendor/bin/codecept
+
+services:
+  database:
+    portforward: 13334
+
+  appserver:
+    extras:
+      - "apt-get update -y"
+      - "apt-get install python-yaml -y"
+      # Rebuild and restart to remove xdebug
+      - "rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+    overrides:
+      services:
+        environment:
+          WKV_SITE_ENV: lando
+          DB_PASS_DRUPAL: drupal8
+          DB_USER_DRUPAL: drupal8
+          DB_HOST_DRUPAL: database
+          DB_NAME_DRUPAL: drupal8
+          SITE_URL: 'https://nginx'
+          DRUSH_OPTIONS_URI: https://drupsby.lndo.site

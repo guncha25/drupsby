@@ -1,0 +1,36 @@
+uuid: 72a71688-232a-46ff-be84-62779c3988d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_liftups
+    - node.type.article
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.text
+  module:
+    - entity_reference_revisions
+id: node.article.field_liftups
+field_name: field_liftups
+entity_type: node
+bundle: article
+label: Liftups
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image: image
+      text: text
+    target_bundles_drag_drop:
+      image:
+        enabled: true
+        weight: 3
+      text:
+        enabled: true
+        weight: 4
+field_type: entity_reference_revisions
