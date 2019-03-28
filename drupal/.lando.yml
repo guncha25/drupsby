@@ -28,6 +28,9 @@ services:
 
   appserver:
     extras:
+      - echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf
+      - echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+      - sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
       - "apt-get update -y"
       - "apt-get install python-yaml -y"
       # Rebuild and restart to remove xdebug
