@@ -1,13 +1,10 @@
 name: drupsby
 recipe: drupal8
 
-compose:
-  - compose.yml
-
 config:
   webroot: web
   via: nginx
-  php: '7.1'
+  php: '7.2'
   database: mariadb:10.1
 
 tooling:
@@ -27,21 +24,15 @@ services:
     portforward: 13334
 
   appserver:
-    extras:
-      - echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf
-      - echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
-      - sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+    build_as_root:
       - "apt-get update -y"
-      - "apt-get install python-yaml -y"
-      # Rebuild and restart to remove xdebug
-      - "rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+      - "apt-get install sudo nano python-yaml -y"
     overrides:
-      services:
-        environment:
-          WKV_SITE_ENV: lando
-          DB_PASS_DRUPAL: drupal8
-          DB_USER_DRUPAL: drupal8
-          DB_HOST_DRUPAL: database
-          DB_NAME_DRUPAL: drupal8
-          SITE_URL: 'https://nginx'
-          DRUSH_OPTIONS_URI: https://drupsby.lndo.site
+      environment:
+        WKV_SITE_ENV: lando
+        DB_PASS_DRUPAL: drupal8
+        DB_USER_DRUPAL: drupal8
+        DB_HOST_DRUPAL: database
+        DB_NAME_DRUPAL: drupal8
+        SITE_URL: 'https://nginx'
+        DRUSH_OPTIONS_URI: https://drupsby.lndo.site
